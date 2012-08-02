@@ -16,5 +16,6 @@
 - (void)setLabelsWithFont:(UIFont *)font OnText:(NSString *)onText offText:(NSString *)offText;
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated;
+- (BOOL)on;
 
 @end
