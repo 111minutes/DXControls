@@ -31,6 +31,8 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
+    CGPoint position = [[touches anyObject] locationInView:self];
+    _switchOffset = _fillingView.center.x - position.x;
 }
 
 
@@ -38,7 +40,7 @@
     [super touchesMoved:touches withEvent:event];
     CGPoint position = [[touches anyObject] locationInView:self];
     
-    _fillingView.center = CGPointMake(position.x, _fillingView.center.y);
+    _fillingView.center = CGPointMake(position.x + _switchOffset, _fillingView.center.y);
     if (_fillingView.frame.origin.x > 0) {
         _fillingView.frame = CGRectMake(0, _fillingView.frame.origin.y, _fillingView.frame.size.width, _fillingView.frame.size.height);
     }
