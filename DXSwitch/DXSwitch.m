@@ -153,18 +153,20 @@
     [_fillingView addSubview:offImg];
 }
 
-- (void)setLabelsWithFont:(UIFont *)font onText:(NSString *)onText offText:(NSString *)offText;
+- (void)setLabelsWithFont:(UIFont *)font onText:(NSString *)onText offText:(NSString *)offText textColor:(UIColor *)textColor;
 {
     UILabel *onLabel = [[UILabel alloc] init];
     UILabel *offLabel = [[UILabel alloc] init];
     
     onLabel.text = onText;
     onLabel.backgroundColor = [UIColor clearColor];
+    offLabel.textColor = textColor;
     onLabel.textAlignment = UITextAlignmentCenter;
     onLabel.font = font;
     
     offLabel.text = offText;
     offLabel.backgroundColor = [UIColor clearColor];
+    offLabel.textColor = textColor;
     offLabel.textAlignment = UITextAlignmentCenter;
     offLabel.font = font;
     

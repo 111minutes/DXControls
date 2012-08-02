@@ -3,3 +3,4 @@ Interface is close to UISwitch.
 Don't forget to add QuartzCore framework to your project.  
 Proper usage require [[DXSwitch alloc] initWithOnBackgroundName:...].  
 You would like to add pictures [setOnImage:offImage:] or text [setLabelsWithFont:onText:offText:] right after the switch initialization.  
+Once set, labels or pictures on the switch cannot be changed.
