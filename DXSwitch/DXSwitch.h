@@ -13,7 +13,7 @@
 
 - (id)initWithOnBackgroundName:(NSString *)onBackName offBackgroundName:(NSString *)offBackName leverName:(NSString *)leverName maskName:(NSString *)maskName;
 - (void)setOnImage:(NSString *)onImgName offImage:(NSString *)offImgName;
-- (void)setLabelsWithFont:(UIFont *)font onText:(NSString *)onText offText:(NSString *)offText;
+- (void)setLabelsWithFont:(UIFont *)font onText:(NSString *)onText offText:(NSString *)offText onTextColor:(UIColor *)onTextColor offTextColor:(UIColor *)offTextColor;
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated;
 - (BOOL)on;
