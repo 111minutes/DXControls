@@ -123,7 +123,7 @@
         [_fillingView addSubview:bkgrOff];
         [_fillingView addSubview:_lever];
         _lever.frame = CGRectMake(bkgrOn.frame.size.width-_lever.frame.size.width/2, 
-                                 bkgrOn.frame.origin.y, 
+                                 bkgrOn.frame.size.height/2 - _lever.frame.size.height/2,
                                  _lever.frame.size.width, _lever.frame.size.height);
         [self addSubview:_fillingView];
         
