@@ -33,6 +33,7 @@
     [super touchesBegan:touches withEvent:event];
     CGPoint position = [[touches anyObject] locationInView:self];
     _switchOffset = _fillingView.center.x - position.x;
+    
 }
 
 
@@ -63,6 +64,7 @@
     else {
         [self switchState];
     }
+    
     _mooved = NO;
 }
 
@@ -77,14 +79,23 @@
         _on = YES;
         [UIView animateWithDuration:animationDuration animations:^{
             _fillingView.center = CGPointMake(_fillingView.frame.size.width/2, _fillingView.center.y);
+        }completion:^(BOOL finished) {
+            if (finished) {
+                [self sendActionsForControlEvents:UIControlEventValueChanged];
+            }
         }];
     }
     else {
         _on = NO;
         [UIView animateWithDuration:animationDuration animations:^{
             _fillingView.center = CGPointMake(0 + _lever.frame.size.width/2, _fillingView.center.y);
+        }completion:^(BOOL finished) {
+            if (finished) {
+                [self sendActionsForControlEvents:UIControlEventValueChanged];
+            }
         }];
     }
+    
 }
 
 - (void)switchState
@@ -93,13 +104,20 @@
         _on = NO;
         [UIView animateWithDuration:0.3 animations:^{
             _fillingView.center = CGPointMake(0 + _lever.frame.size.width/2, _fillingView.center.y);
+        }completion:^(BOOL finished) {
+            if (finished) {
+                [self sendActionsForControlEvents:UIControlEventValueChanged];
+            }
         }];
-        
     }
     else {
         _on = YES;    
         [UIView animateWithDuration:0.3 animations:^{
             _fillingView.center = CGPointMake(_fillingView.frame.size.width/2, _fillingView.center.y);
+        }completion:^(BOOL finished) {
+            if (finished) {
+                [self sendActionsForControlEvents:UIControlEventValueChanged];
+            }
         }];
     }
 }
@@ -126,7 +144,6 @@
                                  bkgrOn.frame.size.height/2 - _lever.frame.size.height/2,
                                  _lever.frame.size.width, _lever.frame.size.height);
         [self addSubview:_fillingView];
-        
         
         
         CALayer *maskLayer = [CALayer layer];
