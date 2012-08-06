@@ -8,6 +8,8 @@
 
 #import "DXSwitch.h"
 
+#define ANIMATION_DURATION 0.2
+
 @interface DXSwitch ()
 {
     UIImage *_maskImage;
@@ -16,6 +18,8 @@
     BOOL _mooved;
     BOOL _on;
     float _switchOffset;
+    
+    
 }
 
 @end
@@ -80,7 +84,7 @@
 {
     float animationDuration = 0;
     if (animated) {
-        animationDuration = 0.3;
+        animationDuration = ANIMATION_DURATION;
     }
 
     if (on) {
@@ -108,7 +112,7 @@
 - (void)switchState
 {
     if (_on) {
-        [UIView animateWithDuration:0.3 animations:^{
+        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
             _fillingView.center = CGPointMake(0 + _lever.frame.size.width/2, _fillingView.center.y);
         }completion:^(BOOL finished) {
             if (finished) {
@@ -118,7 +122,7 @@
         }];
     }
     else {
-        [UIView animateWithDuration:0.3 animations:^{
+        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
             _fillingView.center = CGPointMake(_fillingView.frame.size.width/2, _fillingView.center.y);
         }completion:^(BOOL finished) {
             if (finished) {
@@ -152,6 +156,7 @@
                                  _lever.frame.size.width, _lever.frame.size.height);
         [self addSubview:_fillingView];
         
+        _fillingView.userInteractionEnabled = NO;
         
         CALayer *maskLayer = [CALayer layer];
         maskLayer.contents = (id)[_maskImage CGImage];
