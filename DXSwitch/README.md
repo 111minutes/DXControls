@@ -8,7 +8,7 @@ Usage of images with UIEdgeInsets required for expected appearance.
 
 
 
-Expample
+Expample   
 `_switcher = [[DXSwitch alloc] initWithFrame:CGRectMake(20, 3, 200, 28)
                            onBackgroundImage:[bkgrOnImg resizableImageWithCapInsets:UIEdgeInsetsMake(bkgrOnImg.size.height/2, 28, bkgrOnImg.size.height/2, 0)]
                             offBackgroundImg:[bkgrOffImg resizableImageWithCapInsets:UIEdgeInsetsMake(bkgrOffImg.size.height/2, 0, bkgrOffImg.size.height/2, 28)]
@@ -18,4 +18,6 @@ Expample
     
 [_switcher addTarget:self action:@selector(valueChanged) forControlEvents:UIControlEventValueChanged];
 [_switcher addTarget:self action:@selector(touchDown) forControlEvents:UIControlEventTouchDown];
-[_switcher addTarget:self action:@selector(touchUpInside) forControlEvents:UIControlEventTouchUpInside];`
+[_switcher addTarget:self action:@selector(touchUpInside) forControlEvents:UIControlEventTouchUpInside];   
+
+`

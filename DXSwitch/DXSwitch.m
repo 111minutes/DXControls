@@ -146,8 +146,6 @@
         _on = YES;
         _switchOffset = 0.0;
         
-        [self setBackgroundColor:[UIColor redColor]];
-        
         _fillingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width*2 - frame.size.height, frame.size.height)];
         
         UIImageView *bkgrOn = [[UIImageView alloc] initWithImage:onBackImg];
@@ -173,7 +171,7 @@
         CALayer *maskLayer = [CALayer layer];
         maskLayer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
         maskLayer.backgroundColor = [UIColor blackColor].CGColor;
-        maskLayer.cornerRadius = 14;
+        maskLayer.cornerRadius = frame.size.height/2;
         self.layer.mask = maskLayer;
         
         CALayer *innerShadow = [CALayer layer];
