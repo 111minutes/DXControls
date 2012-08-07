@@ -18,8 +18,6 @@
     BOOL _mooved;
     BOOL _on;
     float _switchOffset;
-    
-    
 }
 
 @end
@@ -53,6 +51,7 @@
     if (_fillingView.frame.origin.x < -_fillingView.frame.size.width/2  + _lever.frame.size.width/2) {
         _fillingView.frame = CGRectMake(-_fillingView.frame.size.width/2 + _lever.frame.size.width/2, _fillingView.frame.origin.y, _fillingView.frame.size.width, _fillingView.frame.size.height);
     }
+    _lever.center = _fillingView.center;
     _mooved = YES;
 }
 
@@ -90,6 +89,7 @@
     if (on) {
         [UIView animateWithDuration:animationDuration animations:^{
             _fillingView.center = CGPointMake(_fillingView.frame.size.width/2, _fillingView.center.y);
+            _lever.center = _fillingView.center;
         }completion:^(BOOL finished) {
             if (finished) {
                 _on = YES;
@@ -100,6 +100,7 @@
     else {
         [UIView animateWithDuration:animationDuration animations:^{
             _fillingView.center = CGPointMake(0 + _lever.frame.size.width/2, _fillingView.center.y);
+            _lever.center = _fillingView.center;
         }completion:^(BOOL finished) {
             if (finished) {
                 _on = NO;
@@ -114,6 +115,7 @@
     if (_on) {
         [UIView animateWithDuration:ANIMATION_DURATION animations:^{
             _fillingView.center = CGPointMake(0 + _lever.frame.size.width/2, _fillingView.center.y);
+            _lever.center = _fillingView.center;
         }completion:^(BOOL finished) {
             if (finished) {
                 _on = NO;
@@ -124,6 +126,7 @@
     else {
         [UIView animateWithDuration:ANIMATION_DURATION animations:^{
             _fillingView.center = CGPointMake(_fillingView.frame.size.width/2, _fillingView.center.y);
+            _lever.center = _fillingView.center;
         }completion:^(BOOL finished) {
             if (finished) {
                 _on = YES;  
@@ -134,6 +137,66 @@
 }
 
 
+
+- (id)initWithFrame:(CGRect)frame onBackgroundImage:(UIImage *)onBackImg offBackgroundImg:(UIImage *)offBackImg leverImage:(UIImage *)leverImage 
+{
+    self = [super init];
+    if (self) {
+        _mooved = NO;
+        _on = YES;
+        _switchOffset = 0.0;
+        
+        [self setBackgroundColor:[UIColor redColor]];
+        
+        _fillingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width*2 - frame.size.height, frame.size.height)];
+        
+        UIImageView *bkgrOn = [[UIImageView alloc] initWithImage:onBackImg];
+        bkgrOn.frame = CGRectMake(0, 0, frame.size.width - frame.size.height/2, frame.size.height);
+        
+        
+        bkgrOn.contentMode = UIViewContentModeScaleToFill;
+        
+        
+        _lever = [[UIImageView alloc] initWithImage:leverImage];
+        
+        UIImageView *bkgrOff = [[UIImageView alloc] initWithImage:offBackImg];
+        bkgrOff.frame = CGRectMake(frame.size.width - frame.size.height/2, 0, frame.size.width - frame.size.height/2, frame.size.height);
+        [_fillingView addSubview:bkgrOn];
+        [_fillingView addSubview:bkgrOff];
+
+        
+        _lever.frame = CGRectMake(frame.size.width - frame.size.height, 0, frame.size.height, frame.size.height);
+        [self addSubview:_fillingView];
+        
+        _fillingView.userInteractionEnabled = NO;
+        
+        CALayer *maskLayer = [CALayer layer];
+        maskLayer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+        maskLayer.backgroundColor = [UIColor blackColor].CGColor;
+        maskLayer.cornerRadius = 14;
+        self.layer.mask = maskLayer;
+        
+        CALayer *innerShadow = [CALayer layer];
+        [innerShadow setMasksToBounds:YES];
+        [innerShadow setCornerRadius:maskLayer.cornerRadius];
+        [innerShadow setBorderColor:[UIColor blackColor].CGColor];
+        [innerShadow setBorderWidth:1.05];
+        [innerShadow setShadowColor:[UIColor blackColor].CGColor];
+        [innerShadow setShadowOffset:CGSizeMake(0, 0)];
+        [innerShadow setShadowOpacity:1.0];
+        [innerShadow setShadowRadius:2.5];
+        innerShadow.frame = CGRectMake(-1, -1, frame.size.width+2, frame.size.height+20);
+        [self.layer addSublayer:innerShadow];
+        
+        [_lever.layer setShadowOpacity:0.5];
+        [_lever.layer setShadowOffset:CGSizeMake(0, 1)];
+        [_lever.layer setShadowRadius:1.0];
+        [self addSubview:_lever];
+        
+        self.frame = frame;
+    }
+    return self;
+}
 
 - (id)initWithOnBackgroundName:(NSString *)onBackName offBackgroundName:(NSString *)offBackName leverName:(NSString *)leverName maskName:(NSString *)maskName
 {
@@ -150,10 +213,10 @@
         bkgrOff.frame = CGRectMake(bkgrOn.frame.size.width, bkgrOn.frame.origin.y, bkgrOff.frame.size.width, bkgrOff.frame.size.height);
         [_fillingView addSubview:bkgrOn];
         [_fillingView addSubview:bkgrOff];
-        [_fillingView addSubview:_lever];
-        _lever.frame = CGRectMake(bkgrOn.frame.size.width-_lever.frame.size.width/2, 
-                                 bkgrOn.frame.size.height/2 - _lever.frame.size.height/2,
-                                 _lever.frame.size.width, _lever.frame.size.height);
+        
+        _lever.frame = CGRectMake(bkgrOn.frame.size.width-_lever.frame.size.width/2,
+                                  bkgrOn.frame.size.height/2 - _lever.frame.size.height/2,
+                                  _lever.frame.size.width, _lever.frame.size.height);
         [self addSubview:_fillingView];
         
         _fillingView.userInteractionEnabled = NO;
@@ -162,9 +225,10 @@
         maskLayer.contents = (id)[_maskImage CGImage];
         maskLayer.frame = _fillingView.frame;
         self.layer.mask = maskLayer;
-
-        _fillingView.frame = CGRectMake(0, 0, bkgrOn.frame.size.width + bkgrOff.frame.size.width, _fillingView.frame.size.height);    
         
+        _fillingView.frame = CGRectMake(0, 0, bkgrOn.frame.size.width + bkgrOff.frame.size.width, _fillingView.frame.size.height);
+        
+        [self addSubview:_lever];
         self.frame = CGRectMake(0, 0, _maskImage.size.width, _maskImage.size.height);
     }
     return self;
@@ -208,14 +272,5 @@
     [_fillingView addSubview:onLabel];
     [_fillingView addSubview:offLabel];
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

@@ -11,6 +11,7 @@
 
 @interface DXSwitch : UIControl
 
+- (id)initWithFrame:(CGRect)frame onBackgroundImage:(UIImage *)onBackImg offBackgroundImg:(UIImage *)offBackImg leverImage:(UIImage *)leverImage;
 - (id)initWithOnBackgroundName:(NSString *)onBackName offBackgroundName:(NSString *)offBackName leverName:(NSString *)leverName maskName:(NSString *)maskName;
 - (void)setOnImage:(NSString *)onImgName offImage:(NSString *)offImgName;
 - (void)setLabelsWithFont:(UIFont *)font onText:(NSString *)onText offText:(NSString *)offText onTextColor:(UIColor *)onTextColor offTextColor:(UIColor *)offTextColor;
