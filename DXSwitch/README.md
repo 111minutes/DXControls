@@ -20,5 +20,4 @@ _switcher = [[DXSwitch alloc] initWithFrame:CGRectMake(20, 3, 200, 28)
 [_switcher addTarget:self action:@selector(valueChanged) forControlEvents:UIControlEventValueChanged];
 [_switcher addTarget:self action:@selector(touchDown) forControlEvents:UIControlEventTouchDown];
 [_switcher addTarget:self action:@selector(touchUpInside) forControlEvents:UIControlEventTouchUpInside];   
-
 ``` 
