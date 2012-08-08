@@ -18,6 +18,7 @@
     BOOL _mooved;
     BOOL _on;
     float _switchOffset;
+    UIGestureRecognizer *gestureRecognizer;
 }
 
 @end
@@ -35,7 +36,8 @@
     [super touchesBegan:touches withEvent:event];
     CGPoint position = [[touches anyObject] locationInView:self];
     _switchOffset = _fillingView.center.x - position.x;
-    [self sendActionsForControlEvents:UIControlEventTouchDown];
+    
+    
     
 }
 
@@ -43,7 +45,7 @@
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesMoved:touches withEvent:event];
     CGPoint position = [[touches anyObject] locationInView:self];
-    
+
     _fillingView.center = CGPointMake(position.x + _switchOffset, _fillingView.center.y);
     if (_fillingView.frame.origin.x > 0) {
         _fillingView.frame = CGRectMake(0, _fillingView.frame.origin.y, _fillingView.frame.size.width, _fillingView.frame.size.height);
@@ -53,13 +55,14 @@
     }
     _lever.center = _fillingView.center;
     _mooved = YES;
+    
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesEnded:touches withEvent:event];
     
     CGPoint position = [[touches anyObject] locationInView:self];
- 
+    
     if ([self hitTest:position withEvent:event]) {
         [self sendActionsForControlEvents:UIControlEventTouchUpInside];
     }
@@ -78,6 +81,14 @@
     
     _mooved = NO;
 }
+
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self setOn:_on animated:NO];
+}
+
+
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated
 {
@@ -167,6 +178,10 @@
         [self addSubview:_fillingView];
         
         _fillingView.userInteractionEnabled = NO;
+        _fillingView.exclusiveTouch = YES;
+        self.exclusiveTouch = YES;
+        
+        
         
         CALayer *maskLayer = [CALayer layer];
         maskLayer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
