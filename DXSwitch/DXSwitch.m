@@ -92,33 +92,38 @@
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated
 {
-    float animationDuration = 0;
     if (animated) {
-        animationDuration = ANIMATION_DURATION;
-    }
-
-    if (on) {
-        [UIView animateWithDuration:animationDuration animations:^{
-            _fillingView.center = CGPointMake(_fillingView.frame.size.width/2, _fillingView.center.y);
-            _lever.center = _fillingView.center;
+        [UIView animateWithDuration:ANIMATION_DURATION animations:^{
+            [self switchVisual:on];
         }completion:^(BOOL finished) {
             if (finished) {
-                _on = YES;
-                [self sendActionsForControlEvents:UIControlEventValueChanged];
+                [self switchLatent:on];
             }
         }];
     }
     else {
-        [UIView animateWithDuration:animationDuration animations:^{
-            _fillingView.center = CGPointMake(0 + _lever.frame.size.width/2, _fillingView.center.y);
-            _lever.center = _fillingView.center;
-        }completion:^(BOOL finished) {
-            if (finished) {
-                _on = NO;
-                [self sendActionsForControlEvents:UIControlEventValueChanged];
-            }
-        }];
+        [self switchVisual:on];
+        [self switchLatent:on];
     }
+        
+    
+}
+
+- (void)switchVisual:(BOOL)finalState
+{
+    if (finalState) {
+        _fillingView.center = CGPointMake(_fillingView.frame.size.width/2, _fillingView.center.y);
+    }
+    else {
+        _fillingView.center = CGPointMake(0 + _lever.frame.size.width/2, _fillingView.center.y);
+    }
+    _lever.center = _fillingView.center;
+}
+
+- (void)switchLatent:(BOOL)finalState
+{
+    _on = finalState;
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
 - (void)switchState
@@ -146,6 +151,7 @@
         }];
     }
 }
+
 
 
 
